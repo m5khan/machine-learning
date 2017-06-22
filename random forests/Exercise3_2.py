@@ -27,6 +27,8 @@ class TBDataVisualizer(Ex3.RForestVisualizer):
             print("Mean Accuracy for fold {} = {}".format(foldId, meanAccuracy))
             prediction = forestClf.predict(X_test)
             cnfMat = confusion_matrix(y_train, prediction)
+            print("Sensitivity : {}".format(self.calcSensitivity(cnfMat)))
+            print("Specificity : {}".format(self.calcSpecificity(cnfMat)))
             print("confusion matrix for fold {} dataset".format(foldId))
             print(cnfMat)
             print("\r\n")
@@ -48,6 +50,8 @@ class TBDataVisualizer(Ex3.RForestVisualizer):
             print("Mean Accuracy for fold {} = {}".format(foldId, meanAccuracy))
             prediction = svc.predict(X_test)
             cnfMat = confusion_matrix(y_train, prediction)
+            print("Sensitivity : {}".format(self.calcSensitivity(cnfMat)))
+            print("Specificity : {}".format(self.calcSpecificity(cnfMat)))
             print("confusion matrix for fold {} dataset".format(foldId))
             print(cnfMat)
             print("\r\n")
@@ -69,10 +73,28 @@ class TBDataVisualizer(Ex3.RForestVisualizer):
             print("Mean Accuracy for fold {} = {}".format(foldId, meanAccuracy))
             prediction = logreg.predict(X_test)
             cnfMat = confusion_matrix(y_train, prediction)
+            print("Sensitivity : {}".format(self.calcSensitivity(cnfMat)))
+            print("Specificity : {}".format(self.calcSpecificity(cnfMat)))
             print("confusion matrix for fold {} dataset".format(foldId))
             print(cnfMat)
             print("\r\n")
             foldId += 1
+
+    def calcSensitivity(self, conf_matrix):
+        tp = conf_matrix[0,0]
+        fp = conf_matrix[1,0]
+        tn = conf_matrix[1,1]
+        fn = conf_matrix[0,1]
+        sensitivity = tp / (tp + fn)
+        return sensitivity
+
+    def calcSpecificity(self, conf_matrix):
+        tp = conf_matrix[0,0]
+        fp = conf_matrix[1,0]
+        tn = conf_matrix[1,1]
+        fn = conf_matrix[0,1]
+        specificity = tn / (tn + fp)
+        return specificity
 
 
 if __name__ == '__main__':
