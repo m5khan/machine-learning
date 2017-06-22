@@ -94,7 +94,7 @@ class RForestVisualizer:
             # ---- plotting diecision boundaries-------------
             ax = plt.subplot(no_of_folds, 2, plotId+1)
             clf.fit(X_train, y_train)
-            score = clf.score(X_test, y_test)
+            score = clf.score(X_test, y_test)       #mean accuracy
 
             # Plot the decision boundary. For that, we will assign a color to each
             # point in the mesh [x_min, x_max]x[y_min, y_max].
@@ -129,12 +129,12 @@ if __name__ == "__main__":
     dl = RForestVisualizer()
 
     # Switch data from here
-    #dl.loadSpiralData()
-    dl.loadTwistData()
+    dl.loadSpiralData()
+    #dl.loadTwistData()
 
     # partition data into 2 folds
     dl.createFoldsSklearn(2)
 
-    forest10 = ensemble.RandomForestClassifier(10, max_depth=3)
+    forest10 = ensemble.RandomForestClassifier(50, max_depth=100)
     print("visualizing")
     dl.visualizeLearningKfold(dl.data, dl.kFolds, forest10)
