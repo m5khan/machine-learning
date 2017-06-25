@@ -52,7 +52,7 @@ def visualizeData(obj, label, svdTrans=False, components=2, colorLabel=None):
                     np.concatenate((obj['meanDataMatrix'], obj['eigvecs'][:, 1])),
                     np.concatenate((obj['meanDataMatrix'], obj['eigvecs'][:, 2])),
                     ])
-    print(soa)
+
     X2, Y2, Z2, U2, V2, W2 = zip(*soa2)
     ax.quiver(X2, Y2, Z2, U2, V2, W2, **kwargs, color="red")
 
@@ -87,12 +87,12 @@ def runExercise2():
 
     newCentroids = np.zeros(centroids.shape)
     iteration = 1
-    #while (np.all(newCentroids - centroids != 0)):
-    newCentroids = centroids
-    closestCentroids = Kmeans.closest_centroid(toydata, newCentroids)
-    centroids = Kmeans.move_centroids(toydata, closestCentroids, newCentroids)
-    #Kmeans.visualizeData(toydata,centroids, "KMEANS interation {}".format(iteration))
-    iteration +=1
+    while (np.all(newCentroids - centroids != 0)):
+        newCentroids = centroids
+        closestCentroids = Kmeans.closest_centroid(toydata, newCentroids)
+        centroids = Kmeans.move_centroids(toydata, closestCentroids, newCentroids)
+        Kmeans.visualizeData(toydata,centroids, "KMEANS interation {}".format(iteration))
+        iteration +=1
 
     Kmeans.visualizeData(toydata, centroids, "KMEANS Final positions")
 

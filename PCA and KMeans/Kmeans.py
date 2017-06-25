@@ -23,7 +23,6 @@ def closest_centroid(points, centroids):
 
 def move_centroids(points, closest, centroids):
     """returns the new centroids assigned from the points closest to them"""
-    print(np.array([points[closest == k]for k in range(centroids.shape[0])]))
     return np.array([points[closest==k].mean(axis=0) for k in range(centroids.shape[0])])
 
 
