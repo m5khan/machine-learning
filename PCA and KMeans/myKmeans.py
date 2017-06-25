@@ -29,6 +29,9 @@ import scipy.io as sio
 def assignPoints(dataMatrix, centroids):
     
     # return the assigned points
+    centroids = dataMatrix.copy()
+    np.random.shuffle(centroids)
+    assignedPoints = centroids[:centroids]
     return assignedPoints
 
 

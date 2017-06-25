@@ -33,7 +33,7 @@ import scipy.io as sio
 def usingSVD(dataMatrix, desiredVariancePercentage=1.0):
     # This function should implement the PCA using the Singular Value
     # Decomposition (SVD) of the given dataMatrix
-    obj = {'meanDataMatrix':None, 'demeanedDataMatrix' : None, 'X_a':None, 'X_b': None, 'X_c': None, 'eigvecs':None, 'eigvals':None}
+    obj = {'meanDataMatrix':None, 'demeanedDataMatrix' : None, 'X_all':None, 'X_a':None, 'X_b': None, 'X_c': None, 'eigvecs':None, 'eigvals':None}
     # De-Meaning the feature space
     obj['meanDataMatrix'] = dataMatrix.mean(axis=1)
     obj['demeanedDataMatrix'] = dataMatrix - obj['meanDataMatrix'][:, np.newaxis]
@@ -46,8 +46,9 @@ def usingSVD(dataMatrix, desiredVariancePercentage=1.0):
     #print(U.shape, V.shape , s.shape)
     S = np.diag(s)
 
-    X_a = np.dot(np.dot(U, S), V)
-    X_b = np.dot(np.dot(U[:,0:-1], S[0:2,0:2]), V[0:-1,:])
+    X_all = np.dot(np.dot(U, S), V)
+    X_a = np.dot(np.dot(U[:,0:3], S[0:3,0:3]), V[0:3,:])
+    X_b = np.dot(np.dot(U[:,0:2], S[0:2,0:2]), V[0:2,:])
     X_c = np.dot(np.dot(U[:,0].reshape(U.shape[0],1), S[0,0].reshape(1,1)), V[0,:].reshape(1, V.shape[1]))
 
     print("standard deviation: original | transformed | difference")
@@ -60,7 +61,8 @@ def usingSVD(dataMatrix, desiredVariancePercentage=1.0):
     maxVals = np.amax(X_b, axis=0)
     #print(maxVals)      # max vals are positive
 
-    obj['X_a'] = X_a
+    obj['X_all'] = X_all
+    obj['X_a'] = X_a        # projection on 3 principle components
     obj['X_b'] = X_b        # projection on 2 principle components
     obj['X_c'] = X_c        # projection on 1 principle component
 
